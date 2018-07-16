@@ -14,13 +14,7 @@
 	   <script src="amr-player-master/amrplayer.js" type="text/javascript" charset="utf-8"></script>
    </body>
  * 
- * 
  * */
-var player;
-var playTimer;
-var position = 0;
-var flag = true;
-var allTime;
 var AmrPlayer = function(amr_url, download_success_cb, download_progress_cb, play_end_cb) {
 	this.init(amr_url, download_success_cb, download_progress_cb, play_end_cb);
 };
@@ -32,6 +26,7 @@ AmrPlayer.prototype = {
 		this.canPlay = false;
 		this.isPlaying = false;
 		var cnt = 0;
+		this.allTime = 0;
 		this.ended_cb = function() {
 			if(cnt === 0) {
 				cnt++;
@@ -53,7 +48,7 @@ AmrPlayer.prototype = {
 				});
 				self.canPlay = true;
 				self.genPLayer(function() {
-					download_success_cb && download_success_cb(allTime);
+					download_success_cb && download_success_cb(self.allTime);
 				});
 			}
 			if(xhr.readyState == 4 && xhr.status == 404) {
@@ -106,8 +101,8 @@ AmrPlayer.prototype = {
 		this.bufferSource.onended = function() {
 			self.ended_cb && self.ended_cb();
 		};
-		allTime = this.bufferSource.buffer.duration * 1000;
-		success_cb && success_cb(allTime);
+		self.allTime = this.bufferSource.buffer.duration * 1000;
+		success_cb && success_cb(self.allTime);
 	},
 	getAudioContext: function() {
 		if(!this.audioContext) {
@@ -151,7 +146,7 @@ init();
 function init() {
 	$(function() {
 		$("amr").each(function() {
-			var amr = new amrEvent($(this));
+			new amrEvent($(this));
 		});
 	});
 };
@@ -161,6 +156,9 @@ var amrEvent = function(amrEle) {
 };
 amrEvent.prototype = {
 	initAmrEvent: function(amrEle) {
+		this.position = 0;
+		this.flag = true;
+		this.allTime = 0;
 		this.initAmr(amrEle);
 	},
 	initAmr: function(amrEle) { // init amr element
@@ -190,8 +188,7 @@ amrEvent.prototype = {
 	showAmrTimes: function(amrEle, amrSrc) { // show amr time
 		var self = this;
 		this.initAmrPlayer(amrSrc, false, function(allTime, currentTime, isOver) {
-			var timeSpan = self.findElement(amrEle, "span", "timeSpan");
-			self.setTimeSpan(timeSpan, allTime, currentTime);
+			self.setTimeSpan(amrEle, allTime, currentTime);
 		});
 	},
 	initClickEvent: function(amrEle) { // init click event
@@ -228,59 +225,59 @@ amrEvent.prototype = {
 		if(!this.isAmrEle(parent)) {
 			return;
 		};
-		var timeSpan = self.findElement(parent, "span", "timeSpan");
-		var progress = self.findElement(parent, "progress", "progress");
-		var amr_url = parent.attr("src");
-		if(self.isAmrFile(amr_url)) {
-			self.initAmrPlayer(amr_url, true, function(allTime, currentTime, isOver) {
-				self.setTimeSpan(timeSpan, allTime, currentTime);
-				self.setPlayBtnIcon(playBtn, isOver);
-				self.setProgressStatus(progress, allTime, currentTime);
+		var amrSrc = parent.attr("src");
+		if(self.isAmrFile(amrSrc)) {
+			self.initAmrPlayer(amrSrc, true, function(allTime, currentTime, isOver) {
+				self.setTimeSpan(parent, allTime, currentTime);
+				self.setPlayBtnIcon(parent, isOver);
+				self.setProgressStatus(parent, allTime, currentTime);
 			})
 		} else {
 			alert("amr address is wrong, please check amr address");
 		}
 	},
-	initAmrPlayer: function(amr_url, isPlay, time_cb) { // init amr player
-		player = new AmrPlayer(amr_url, function(allTime) { // play start callBack
-			time_cb && time_cb(allTime, position, false);
+	initAmrPlayer: function(amrSrc, isPlay, time_cb) { // init amr player
+		var self = this;
+		this.player = new AmrPlayer(amrSrc, function(allTime) { // play start callBack
+			self.allTime = allTime;
+			time_cb && time_cb(self.allTime, self.position, false);
 			if(isPlay) {
-				player.pause();
-				player.play();
-				playTimer = setInterval(function() {
-					position += 100;
-					time_cb && time_cb(allTime, position, false);
+				self.player.pause();
+				self.player.play();
+				self.playTimer = setInterval(function() {
+					self.position += 100;
+					time_cb && time_cb(self.allTime, self.position, false);
 				}, 100);
-				flag = false;
+				self.flag = false;
 			}
 		}, function() { // download progress callBack
 		}, function() { // play end callBack
-			if(player) {
-				flag = true;
-				clearInterval(playTimer);
-				position = 0;
-				time_cb && time_cb(allTime, position, true);
+			if(isPlay) {
+				self.flag = true;
+				clearInterval(self.playTimer);
+				self.position = 0;
+				time_cb && time_cb(self.allTime, self.position, true);
 			}
 		});
 	},
 	downloadFile: function(amrEle) { // download the file
-		var amr_url = amrEle.attr("src");
-		if(self.isAmrFile(amr_url)) {
-			window.open(amr_url);
+		var amrSrc = amrEle.attr("src");
+		if(this.isAmrFile(amrSrc)) {
+			window.open(amrSrc);
 		} else {
 			alert("amr address is wrong, please check amr address");
 		};
 	},
 	autoplay: function(self, amrEle) { // amr player autoplay
-		var playBtn = self.findElement(amrEle, "img", "playBtn");
-		if(playBtn != undefined) {
-			if(flag) {
+		var playBtn = amrEle.find("img[name=playBtn]")
+		if(playBtn.length > 0) {
+			if(self.flag) {
 				self.changeAmrStyle(playBtn);
 			} else {
-				if(player != undefined) {
-					player.toggle();
+				if(self.player != undefined) {
+					self.player.toggle();
 				}
-				flag = true;
+				self.flag = true;
 			};
 		} else {
 			alert("don't have the play button, play img button must has ( name='playBtn' ) this property");
@@ -291,40 +288,33 @@ amrEvent.prototype = {
 		return autoplay != undefined && autoplay == "autoplay";
 	},
 	isAmrEle: function(ele) { // is amr element
-		return ele.prop("tagName").toLocaleLowerCase() == "amr";
+		return ele.prop("tagName").toLocaleLowerCase() == "amr" && ele.length > 0;
 	},
 	isAmrFile: function(amrSrc) { // is amr file
 		return amrSrc != "" && amrSrc.indexOf(".amr") > 0 && amrSrc.substr(amrSrc.length - 4).toLowerCase() == ".amr";
 	},
-	findElement: function(amrEle, elementString, nameValue) { // find element 
-		var self = this;
-		var group = amrEle.children(elementString);
-		for(var i = 0; i < group.length; i++) {
-			if(self.isHasBtn(group.eq(i), nameValue)) {
-				return group.eq(i);
-			};
-		};
-		return undefined;
-	},
 	isHasBtn: function(ele, nameValue) { // element is exist 
 		return ele != undefined && ele.attr("name") == nameValue;
 	},
-	setTimeSpan: function(timeSpan, allTime, currentTime) { // set time
-		if(timeSpan != undefined) {
+	setTimeSpan: function(amrEle, allTime, currentTime) { // set time
+		var timeSpan = amrEle.find("span[name=timeSpan]");
+		if(timeSpan.length > 0) {
 			var time = this.toSecond(currentTime) + "/" + this.toSecond(allTime);
 			timeSpan.html(time);
 		};
 	},
-	setPlayBtnIcon: function(playBtn, isOver) { // set play btn icon
-		if(playBtn != undefined) {
+	setPlayBtnIcon: function(amrEle, isOver) { // set play btn icon
+		var playBtn = amrEle.find("img[name=playBtn]")
+		if(playBtn.length > 0) {
 			var src = isOver ? "https://img.miliantech.com/public/images/playIcon/play_btn.png" : "https://img.miliantech.com/public/images/playIcon/stop_btn.png";
 			playBtn.attr("src", src);
 		};
 	},
-	setProgressStatus: function(progress, allTime, currentTime) { // set progress status
-		if(progress != undefined) {
+	setProgressStatus: function(amrEle, allTime, currentTime) { // set progress status
+		var progress = amrEle.find("progress[name=progress]")
+		if(progress.length > 0) {
 			var value = progress.attr("max") / allTime * currentTime;
-			progress.attr("value", value);
+			progress.attr("value", !isNaN(value) ? value : 0);
 		};
 	},
 	toSecond: function(second) { // millSecond to second
