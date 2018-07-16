@@ -20,7 +20,7 @@ usage:
 	   <script src="amr-player-master/amrplayer.js" type="text/javascript" charset="utf-8"></script>
    </body>
    
-   
-![amr-player](amr-player.png "amr-player")
+#### show amr player: 
+	- ![amr-player](amr-player.png "amr-player")
    
    
