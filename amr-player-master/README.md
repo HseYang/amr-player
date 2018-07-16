@@ -10,6 +10,6 @@ amr-player
    </body>
    
    > property:
-   		src : amr url
-   		autoplay : can autoplay
+	- src : amr url
+	- autoplay : can autoplay
  

@@ -19,8 +19,8 @@ After that, I revised it to make it better.
    </body>
    
    > property:
-   		src : amr url
-   		autoplay : can autoplay
+	- src : amr url
+	- autoplay : can autoplay
    
    
 #### show amr player: 
