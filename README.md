@@ -21,6 +21,6 @@ usage:
    </body>
    
    
-   > ![amr-player](https://img.milian.com/public/images/playIcon/amr-player.png "amr-player")
+![amr-player](https://img.milian.com/public/images/playIcon/amr-player.png "amr-player")
    
    
