@@ -5,14 +5,14 @@ play remote amr format audio with JavaScript
 	- 1.0.0
 	- can simply play amr file
 	
--- AmrPlayer --
+### AmrPlayer
 	
 	copy by https://github.com/alex374/amr-player;
 	
 	After that, I revised it to make it better.
 	
 	
-usage:
+### usage:
    > <body>
 	   <amr src="http://xxxx.amr"></amr>
 	   <script src="amr-player-master/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
@@ -20,7 +20,7 @@ usage:
 	   <script src="amr-player-master/amrplayer.js" type="text/javascript" charset="utf-8"></script>
    </body>
    
-#### show amr player: 
-	- ![amr-player](amr-player.png "amr-player")
+### show amr player: 
+	- ![amrPayer](amrPlayer.png)
    
    
