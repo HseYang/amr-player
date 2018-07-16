@@ -18,6 +18,11 @@ After that, I revised it to make it better.
 	   <script src="amr-player-master/amrplayer.js" type="text/javascript" charset="utf-8"></script>
    </body>
    
+   > property:
+   		src : amr url
+   		autoplay : can autoplay
+   
+   
 #### show amr player: 
 ![amrPayer](amrPlayer.png "amrPayer")
    
