@@ -15,3 +15,8 @@ usage:
 	   <script src="amr-player-master/amrnb.js" type="text/javascript" charset="utf-8"></script>
 	   <script src="amr-player-master/amrplayer.js" type="text/javascript" charset="utf-8"></script>
    </body>
+   
+   
+   > [amr-player](https://img.milian.com/public/images/playIcon/amr-player.png "amr-player")
+   
+   
