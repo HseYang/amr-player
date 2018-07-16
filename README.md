@@ -19,6 +19,6 @@ After that, I revised it to make it better.
    </body>
    
 #### show amr player: 
-	- ![amrPayer](https://img.miliantech.com/public/images/playIcon/amr-player.png)
+- ![amrPayer](amrPlayer.png "amrPayer")
    
    
