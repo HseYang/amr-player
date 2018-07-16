@@ -1,6 +1,6 @@
 amr-player
 
-#### AmrPlayer usage:
+### AmrPlayer usage:
 	
    > <body>
 	   <amr src="http://xxxx.amr"></amr>
@@ -9,7 +9,7 @@ amr-player
 	   <script src="amr-player-master/amrplayer.js" type="text/javascript" charset="utf-8"></script>
    </body>
    
-   > property:
-	- src : amr url
-	- autoplay : can autoplay
+#### property:
+	> src : amr url
+	  autoplay : can autoplay
  

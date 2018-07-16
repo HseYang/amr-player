@@ -5,11 +5,11 @@ copy by https://github.com/alex374/amr-player;
 	
 After that, I revised it to make it better.
 
-### 2018.7.16：
+## 2018.7.16：
 	- 1.0.0
 	- can simply play amr file, can play multiple amr at the same time
 
-#### AmrPlayer usage:
+### AmrPlayer usage:
 	
    > <body>
 	   <amr src="http://xxxx.amr"></amr>
@@ -18,12 +18,11 @@ After that, I revised it to make it better.
 	   <script src="amr-player-master/amrplayer.js" type="text/javascript" charset="utf-8"></script>
    </body>
    
-   > property:
-	- src : amr url
-	- autoplay : can autoplay
+#### property:
+	> src : amr url
+	  autoplay : can autoplay
    
-   
-#### show amr player: 
+### show amr player: 
 ![amrPayer](amrPlayer.png "amrPayer")
    
    
