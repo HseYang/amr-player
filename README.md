@@ -7,8 +7,8 @@ After that, I revised it to make it better.
 
 ### 2018.7.16：
 	- 1.0.0
-	- can simply play amr file
-	
+	- can simply play amr file, can play multiple amr at the same time
+
 #### AmrPlayer usage:
 	
    > <body>
