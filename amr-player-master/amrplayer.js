@@ -182,7 +182,11 @@ amrEvent.prototype = {
 	initAmrTime: function(amrEle) { // init amr time
 		var amrSrc = amrEle.attr("src");
 		if(this.isAmrFile(amrSrc)) {
-			this.showAmrTimes(amrEle, amrSrc);
+			if(this.isAutoplay(amrEle)){
+				this.autoplay(this, amrEle);
+			}else{
+				this.showAmrTimes(amrEle, amrSrc);
+			};
 		};
 	},
 	showAmrTimes: function(amrEle, amrSrc) { // show amr time
