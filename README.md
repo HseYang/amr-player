@@ -5,10 +5,14 @@ copy by https://github.com/alex374/amr-player;
 	
 After that, I revised it to make it better.
 
+## 2018.7.26：
+	- 1.1.0
+	- if the url not include ".amr", then use "audio" element play
+	
 ## 2018.7.16：
 	- 1.0.0
 	- can simply play amr file, can play multiple amr at the same time
-
+	
 ### AmrPlayer usage:
 	
    > <body>
