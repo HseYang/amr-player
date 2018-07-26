@@ -162,7 +162,6 @@ amrEvent.prototype = {
 		this.initAmr(amrEle);
 	},
 	initAmr: function(amrEle) { // init amr element
-		this.initStyle(amrEle);
 		this.appendChild(amrEle);
 		this.initAmrTime(amrEle);
 		this.initClickEvent(amrEle);
@@ -172,11 +171,14 @@ amrEvent.prototype = {
 		amrEle.css(amrCss);
 	},
 	appendChild: function(amrEle) { // append child in amr element
-		// play img button  must only has 'name="playBtn"' this property; 
-		// time span        must only has 'name="timeSpan"' this property;
-		// progress         must only has 'name="progress"' this name="progress";
-		// download button  must only has 'name="progress"' this name="downloadBtn";
-		var child = '<img name="playBtn" src="https://img.miliantech.com/public/images/playIcon/play_btn.png" width="30px" height="30px"/><span name="timeSpan" style="padding: 0 10px;">0:0:00/0:0:00</span><progress name="progress" value="0" max="100"></progress><img name="downloadBtn" width="22" height="22" src="https://img.miliantech.com/public/images/playIcon/download_btn.png" style="margin-left: 12px;"/>'
+		var src = amrEle.attr("src");
+		var child = "";
+		if(this.isAmrFile(src)) {
+			this.initStyle(amrEle);
+			child = '<img name="playBtn" src="https://img.miliantech.com/public/images/playIcon/play_btn.png" width="30px" height="30px"/><span name="timeSpan" style="padding: 0 10px;">0:0:00/0:0:00</span><progress name="progress" value="0" max="100"></progress><img name="downloadBtn" width="22" height="22" src="https://img.miliantech.com/public/images/playIcon/download_btn.png" style="margin-left: 12px;"/>'
+		} else {
+			child = '<audio src="' + src + '" controls="controls"></audio>';
+		}
 		amrEle.empty().append(child);
 	},
 	initAmrTime: function(amrEle) { // init amr time
@@ -197,6 +199,10 @@ amrEvent.prototype = {
 	},
 	initClickEvent: function(amrEle) { // init click event
 		var self = this;
+		var src = amrEle.attr("src");
+		if(!self.isAmrFile(src)) {
+			return false;
+		}
 		amrEle.on("click", function(event) {
 			if(event.stopPropagation()) {
 				event.stopPropagation();
