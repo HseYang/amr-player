@@ -11,6 +11,22 @@
 		<script src="amr-player-master/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="amr-player-master/amrnb.js" type="text/javascript" charset="utf-8"></script>
 		<script src="amr-player-master/amrplayer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+//			如果是管理系统在用 可以使用此方法初始化页面所有的文件
+//			initAllAmr && initAllAmr()
+			
+			var player = new amrEvent($("amr"));
+			
+			// How to Play:
+			// 1、Click on the Play button for the amr ele
+			// 2、Call this 'playAmr' method to play
+			
+			function playAmr(){
+				player && player.play(function(playing){
+					console.log("current player playing ?? " + playing)
+				})
+			}
+		</script>
 	</body>
 
 </html>
